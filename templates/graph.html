@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Graph</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5" style = "margin-bottom: 30px;">
+        <!-- Header -->
+        <div class="row">
+            <div class="col text-center">
+                <h2 class="display-4">2024 修士論文ページ数グラフ</h2>
+            </div>
+        </div>
+
+        <!-- 2:1 Layout -->
+        <div class="row mt-4">
+            <!-- Left Section (Rankings) -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Today's Top 10 Users</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for user in top_users %}
+                            <li class="list-group-item">
+                                {% if user[0] != 'unknown' %}
+                                <a href="https://twitter.com/{{ user[0] }}" target="_blank">
+                                    {{ user[1] }} - {{ user[2] }} pages
+                                </a>
+                                {% else %}
+                                {{ user[1] }} - {{ user[2] }} pages
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section (Graph) -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>ページ数グラフ</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="progressChart" style="width: 100%; height: 410px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart.js Script to Render Graph -->
+        <script>
+            const graphData = {{ graph_data | tojson }};
+            const ctx = document.getElementById('progressChart').getContext('2d');
+
+            // すべての日付を横軸に
+            const labels = {{ all_dates | tojson }};
+
+            // ユーザーごとのデータを設定
+            const datasets = graphData.filter(user => user.twitter_id !== 'unknown').map(user => ({
+                label: user.nickname,
+                data: labels.map(date => {
+                    const userData = user.data.find(data => data.date === date);
+                    return userData ? userData.total_pages : 0; // データがなければ0を表示
+                }),
+                borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // ランダムな色
+                borderWidth: 2,
+                pointBackgroundColor: '#000000',
+                pointRadius: 5,
+                fill: false,
+                tension: 0.1
+            }));
+
+            const chartData = {
+                labels: labels,
+                datasets: datasets
+            };
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false, // アスペクト比を維持しない
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const user = graphData[tooltipItem.datasetIndex];
+                                return `${user.nickname}: ${tooltipItem.raw} pages`;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false // 凡例を非表示にする
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Total Pages'
+                        }
+                    }
+                }
+            };
+
+            const progressChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: chartOptions
+            });
+        </script>
+
+
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="display-4">2024年度修論グラフ</h1>
+            <p class="lead">M2のみんなで進捗を可視化しよう!</p>
+        </div>
+        <div style="font-size:medium; margin-bottom: 30px;">
+        「2024年度修論グラフ」にようこそ！このサイトは修論執筆に励むあらゆる分野のM2向けに、お互いに進捗をリアルタイムに可視化して切磋琢磨しよう！
+        というサイトです。修論の進捗の目安として「修論の総ページ数」を可視化します。
+        </div>
+
+        <form action="/submit" method="POST">
+            <div class="mb-3">
+                <label for="nickname" class="form-label">Nickname</label>
+                <input type="text" class="form-control" id="nickname" name="nickname" required
+                    placeholder="Enter your nickname">
+            </div>
+
+            <div class="mb-3">
+                <label for="twitter" class="form-label">Twitter Account</label>
+                <input type="text" class="form-control" id="twitter" name="twitter" required
+                    placeholder="Enter your Twitter username">
+            </div>
+
+            <select class="form-select" id="field" name="field" required>
+                <option value="" disabled selected>学問分野を選択してください</option>
+
+                <!-- 理学 -->
+                <option value="理学--物理">理学--物理学</option>
+                <option value="理学--化学">理学--化学</option>
+                <option value="理学--生物学">理学--生物学</option>
+                <option value="理学--数学">理学--数学</option>
+                <option value="理学--地学">理学--地学</option>
+
+                <!-- 工学 -->
+                <option value="工学--機械工学">工学--機械工学</option>
+                <option value="工学--電気工学">工学--電気工学</option>
+                <option value="工学--土木工学">工学--土木工学</option>
+                <option value="工学--化学工学">工学--化学工学</option>
+                <option value="工学--生物工学">工学--生物工学</option>
+
+                <!-- 人文学 -->
+                <option value="人文学--哲学">人文学--哲学</option>
+                <option value="人文学--歴史学">人文学--歴史学</option>
+                <option value="人文学--言語学">人文学--言語学</option>
+                <option value="人文学--文学">人文学--文学</option>
+                <option value="人文学--心理学">人文学--心理学</option>
+
+                <!-- 社会科学 -->
+                <option value="社会科学--経済学">社会科学--経済学</option>
+                <option value="社会科学--社会学">社会科学--社会学</option>
+                <option value="社会科学--政治学">社会科学--政治学</option>
+                <option value="社会科学--法社会学">社会科学--法社会学</option>
+                <option value="社会科学--地理学">社会科学--地理学</option>
+
+                <!-- 農学 -->
+                <option value="農学--農業経済学">農学--農業経済学</option>
+                <option value="農学--植物学">農学--植物学</option>
+                <option value="農学--動物学">農学--動物学</option>
+                <option value="農学--土壌学">農学--土壌学</option>
+
+                <!-- 薬学 -->
+                <option value="薬学--薬剤学">薬学--薬剤学</option>
+                <option value="薬学--臨床薬学">薬学--臨床薬学</option>
+                <option value="薬学--製薬学">薬学--製薬学</option>
+
+                <!-- 環境学 -->
+                <option value="環境学--環境科学">環境学--環境科学</option>
+                <option value="環境学--環境工学">環境学--環境工学</option>
+                <option value="環境学--地球温暖化学">環境学--地球温暖化学</option>
+                <option value="環境学--生態学">環境学--生態学</option>
+
+                <!-- 情報学 -->
+                <option value="情報学--コンピュータ科学">情報学--コンピュータ科学</option>
+                <option value="情報学--情報システム">情報学--情報システム</option>
+                <option value="情報学--人工知能">情報学--人工知能</option>
+                <option value="情報学--ロボティクス">情報学--ロボティクス</option>
+                <option value="情報学--データサイエンス">情報学--データサイエンス</option>
+
+                <!-- 法学 -->
+                <option value="法学--民法">法学--民法</option>
+                <option value="法学--刑法">法学--刑法</option>
+                <option value="法学--商法">法学--商法</option>
+                <option value="法学--知的財産法">法学--知的財産法</option>
+                <option value="法学--国際法">法学--国際法</option>
+
+                <!-- 医学 -->
+                <option value="医学--臨床医学">医学--臨床医学</option>
+                <option value="医学--基礎医学">医学--基礎医学</option>
+                <option value="医学--公衆衛生学">医学--公衆衛生学</option>
+                <option value="医学--予防医学">医学--予防医学</option>
+                <option value="医学--薬理学">医学--薬理学</option>
+            </select>
+
+
+            <div class="mb-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="page_count" class="form-label">Pages Written</label>
+                <input type="number" class="form-control" id="page_count" name="page_count" required
+                    placeholder="Enter the number of pages written">
+            </div>
+
+            <button type="submit" class="btn btn-custom w-100 mb-3">Submit</button>
+        </form>
+
+        <div class="mt-4 text-left" style="margin-bottom: 30px;">
+            <div style="font-size:medium; font-weight:bold;">遊び方</div>
+            <div style="font-size:medium; font-weight:bold;">初めて入力する場合</div>
+            <ol>
+                <li>ニックネームを入れてください(Xの名前と一致している必要はありません)。</li>
+                <li>X(旧Twitter)のアカウントを入力してください（デイリーランキングに表示されます）。<br>
+                    アカウントが無い場合や入力したくない場合は、「@」で始まる好きな文字列を入れてください。
+                </li>
+                <li>修士論文のテーマに対応する学問分野を選択してください。
+                </li>
+                <li>修士論文のページ数を入力したい日付を選択してください。<br>
+                    （過去の日付で入力をすることも可能です。また同一の日付で入力した場合は最後の入力結果のみが保持されます。）
+                </li>
+                <li>
+                    書いたページ数を半角数字で入力してください。
+                </li>
+                <li>
+                    「Submit」ボタンを押してください。
+                </li>
+            </ol>
+        </div>
+
+        <div class="mt-4 text-left" style="margin-bottom: 30px;">
+            <div style="font-size:medium; font-weight:bold;">2回目以降の入力の場合</div>
+            <ol>
+                <li>最初に入力したニックネームと同じニックネームを入れてください</li>
+                <li>最初に入力したXアカウントと同じアカウントのユーザー名を入れてください</li>
+                <li>修士論文のテーマに対応する学問分野を選択してください。</li>
+                <li>修士論文のページ数を入力したい日付を選択してください。</li>
+                <li>書いたページ数を半角数字で入力してください。</li>
+            </ol>
+        </div>
+
+        <!-- Author's note and Twitter link -->
+        <div class="mt-4 text-left" style="margin-bottom: 30px;">
+            <div style="font-size:medium; font-weight:bold;">備考</div>
+            <ul>
+                <li>「総ページ数」には表紙・目次・図表目次・前付け・本文・謝辞・参考文献のすべてを含めることが可能です。</li>
+                <li>「2024年度修論進捗グラフ（以下、本アプリ）」は入力されたニックネーム、TwitterのアカウントID、学問分野および日付とページ数を保存します。入力されたTwitterアカウントのID以外のいかなる情報も取得・保存することはありません。</li>
+                <li>本アプリは、ユーザーが提供する情報に基づいてデータを処理し、表示を行いますが、その正確性や完全性について一切保証するものではありません。ユーザーは自己責任で本アプリを利用し、提供された情報に基づく結果や進捗に関して生じたいかなる問題に対しても、開発者は一切の責任を負いません。また、予告なしにアプリの機能を変更または中止することがありますので、ご了承ください。</li>
+                <li>お気づきの点がありましたら下記XのDMまでお願いします。データの削除依頼等も個別にご連絡ください</li>
+                <li>Created by <a href="https://x.com/chikurinJP" target="_blank">@ChikurinJP</a></li>
+            </ul>
+        </div>
+
+        <div class="mt-4 text-left" style="margin-bottom: 30px; color: #6c757d;">
+            <div style="font-size:medium; font-weight:bold;">バージョン情報</div>
+            <ul>
+                <li>ver 1.0.0: Public release version</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Set the max date to today's date in JST
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero if month is less than 10
+        const day = String(today.getDate()).padStart(2, '0'); // Add leading zero if day is less than 10
+        const maxDate = `${year}-${month}-${day}`;
+        document.getElementById('date').setAttribute('max', maxDate);
+    </script>
+</body>
+
+</html>
